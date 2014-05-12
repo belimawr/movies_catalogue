@@ -1,0 +1,42 @@
+<HTML>
+  <HEAD>
+    <META CHARSET="UTF-8">
+    <LINK REL="stylesheet" TYPE="text/css" HREF="/static/css/default.css">
+    <TITLE>{% block title %} Tiago's movies catalogue {% endblock  %}</TITLE>
+  </HEAD>
+
+  <BODY>
+    <DIV ID="header">
+      {% block header %}
+      <IMG ID="header_image" SRC="/static/images/logo.png">
+      {% endblock header %}
+
+      {% block login  %}
+      {% endblock login %}
+    </DIV>
+
+    <DIV ID="menu">
+      <UL>
+	<LI><A HREF="{% url 'movies'  %}"> Movies </A></LI>
+	<LI><A HREF="{% url 'categories'  %}"> Categories </A></LI>
+	<LI><A HREF="#"> Opt 3 </A></LI>
+	<LI><A HREF="#"> Opt 4 </A></LI>
+      </UL>
+    </DIV>
+
+    <DIV ID="content">
+      {% block body %}
+      Here goes the body
+      {% endblock body %}
+    </DIV>
+
+    <DIV ID="footer">
+      {% block footer %}
+      	</br>
+      <p style="text-align:center;">
+	&copy; 2014 Tiago's Movies Catalogue. All Rights Reserved.
+      </p>
+      {% endblock footer %}
+    </DIV>
+  </BODY>
+</HTML>

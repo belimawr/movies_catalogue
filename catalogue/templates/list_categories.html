@@ -1,0 +1,33 @@
+{% extends 'default.html' %}
+
+{% block title %}
+{{ block.super }} - 
+Categories
+{% endblock title %}
+
+
+{% block body %}
+<H1>Categories:</H1>
+    <UL>
+      {% for category in categories %}
+      <LI><b>{{ category.name  }}:</b> {{ category.description  }} </LI>
+      {% endfor %}
+    </UL>
+
+    {% if categories.paginator.num_pages > 1  %}
+    <DIV ID="paginator">
+      {% if categories.has_previous %}
+      <A HREF="?page={{ categories.previous_page_number  }}">Previous</A>
+      {% endif %}
+      
+      <SPAN CLASS="current">
+	Page {{ categories.number }} of&nbsp {{ categories.paginator.num_pages }}. 
+      </SPAN>
+      
+      {% if categories.has_next %}
+      <A HREF="?page={{ categories.next_page_number }}">Next</A>
+      {% endif %}
+      {% endif %}
+      
+    </DIV>
+{% endblock body  %}

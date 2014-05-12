@@ -1,0 +1,6 @@
+*.pyc
+*.*~
+*.backup
+pictures/*
+catalogue/templates/index.html
+catalogue/templates/list.html

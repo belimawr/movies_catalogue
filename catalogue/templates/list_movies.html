@@ -1,0 +1,33 @@
+{% extends 'default.html' %}
+
+{% block title %}
+{{ block.super }} - 
+Movies
+{% endblock title %}
+
+
+{% block body %}
+<H1>Movies:</H1>
+    <UL>
+      {% for movie in movies %}
+      <LI><b>{{ movie.name  }}:</b> {{ movie.description  }} </LI>
+      {% endfor %}
+
+      {% if movies.paginator.num_pages > 1  %}
+      <DIV ID="paginator">
+	{% if movies.has_previous %}
+	<A HREF="?page={{ movies.previous_page_number  }}">Previous</A>
+	{% endif %}
+	
+	<SPAN CLASS="current">
+	  Page {{ movies.number }} of&nbsp {{ movies.paginator.num_pages }}. 
+	</SPAN>
+	
+	{% if movies.has_next %}
+	<A HREF="?page={{ movies.next_page_number }}">Next</A>
+	{% endif %}
+	{% endif %}
+	
+      </DIV>
+    </UL>
+{% endblock body  %}
