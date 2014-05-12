@@ -5,6 +5,19 @@ from catalogue.models import Movie, Category
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
+def _make_page(full_data, page, items_per_page):
+    paginator = Paginator(full_data, items_per_page)
+    try:
+        chopped_list = paginator.page(page)
+    except (PageNotAnInteger):
+        # If the page is not an integer, deliver the first page
+        chopped_list = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range, deliver the last one
+        chopped_list = paginator.page(paginator.num_pages)
+    return chopped_list
+
+
 def index(request):
     movies = Movie.objects.all()
     d = {'title': 'My First website in Django',
@@ -37,8 +50,30 @@ def movies_search_by_name(request, search_param=None):
     return render_to_response('list_movies.html', d)
 
 
-def categories_listing(request):
-    category_list = Category.objects.all()
+def movies_search_by_category(request, search_param=None):
+    if search_param is not None:
+        movies_list = Movie.objects.filter(
+            category__name__icontains=search_param)
+        if(len(movies_list) == 0):
+            d = {'search_param': search_param}
+            return render_to_response('not_found.html', d)
+        page = request.GET.get('page')
+        movies = _make_page(movies_list, page, 15)
+        d = {'movies': movies}
+        return render_to_response('list_movies.html', d)
+    else:
+        return movies_search_by_name(request)
+
+
+def categories_search_by_name(request, search_param=None):
+    if search_param is not None:
+        category_list = Category.objects.filter(name__icontains=search_param)
+        if(len(category_list) == 0):
+            d = {'search_param': search_param}
+            return render_to_response('not_found.html', d)
+    else:
+        category_list = Category.objects.all()
+
     paginator = Paginator(category_list, 10)
 
     try:

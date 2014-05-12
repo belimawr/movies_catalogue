@@ -14,11 +14,23 @@ urlpatterns = patterns('',
 
                        url(r'^$', 'catalogue.views.index', name='index'),
 
-                       url(r'^movies/(?P<search_param>\w+)',
+                       url(r'^movies/$',
                            'catalogue.views.movies_search_by_name',
-                           name='search_movie'),
+                           name='movies'),
+
+                       url(r'^movies/category/(?P<search_param>\w+)$',
+                           'catalogue.views.movies_search_by_category',
+                           name='movies_category'),
+
+                       url(r'^movies/(?P<search_param>\w+)$',
+                           'catalogue.views.movies_search_by_name',
+                           name='movies'),
 
                        url(r'^categories/$',
-                           'catalogue.views.categories_listing',
+                           'catalogue.views.categories_search_by_name',
+                           name='categories'),
+
+                       url(r'^categories/(?P<search_param>\w+)$',
+                           'catalogue.views.categories_search_by_name',
                            name='categories'),
                        )
