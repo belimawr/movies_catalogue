@@ -2,6 +2,9 @@ from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 # from Movies import views
 
 admin.autodiscover()
@@ -26,6 +29,10 @@ urlpatterns = patterns('',
                            'catalogue.views.movies_search_by_name',
                            name='movies'),
 
+                       url(r'^movies/details/(?P<pk>\d+)$',
+                           'catalogue.views.movie_details',
+                           name='movie_details'),
+
                        url(r'^categories/$',
                            'catalogue.views.categories_search_by_name',
                            name='categories'),
@@ -34,3 +41,5 @@ urlpatterns = patterns('',
                            'catalogue.views.categories_search_by_name',
                            name='categories'),
                        )
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

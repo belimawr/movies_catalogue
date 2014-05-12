@@ -1,0 +1,31 @@
+{% extends 'default.html' %}
+
+{% block title %}
+{{ block.super }} -
+{{ movie.name  }}
+{% endblock title  %}
+
+{% block body %}
+<H1> {{ movie.name  }} </H1>
+
+<P>
+  <IMG ID="desc_image" SRC="{{ movie.image_url | default_if_none:'#' }}">
+</P>
+
+<P>
+  <B>Categories: </B> 
+  {% for category in movie.category.all %}
+  {{ category }}
+  {% if not forloop.last %},{% else %} and {% endif %}
+  {% endfor %}
+</P>
+
+<P>
+  <B>Year: </B> {{ movie.year_released }}
+</P>
+
+<P>
+  <B>Description: </B> {{ movie.description  }}
+</P>
+
+{% endblock body %}

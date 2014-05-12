@@ -2,14 +2,12 @@
 
 {% block title %}
 {{ block.super }} - 
-Movie not found :(
+{{ error.title  }}
 {% endblock title %}
 
 
 {% block body %}
-<H1>Movie not found</H1>
+<H1> {{ error.title }}</H1>
 
-<P> Sorry, but I could not find any
-movie with <B>{{ search_param  }}</B>
-in its name. </P>
+<P> {% autoescape off %} {{ error.message  }} {% endautoescape  %} </P>
 {% endblock body %}

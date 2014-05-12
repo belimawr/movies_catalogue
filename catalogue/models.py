@@ -27,7 +27,16 @@ class Movie(models.Model):
     description = models.TextField(u'Movie description')
     category = models.ManyToManyField(Category)
     year_released = models.IntegerField(u'Year')
-    picture = models.ImageField(upload_to='pictures')
+    picture = models.ImageField(upload_to='pictures', blank=True, null=True)
+
+    @property
+    def image_url(self):
+        if self.picture and hasattr(self.picture, 'url'):
+            return self.picture.url
+
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('catalogue.views.movie_details', kwargs={'pk': self.id})
 
     def __unicode__(self):
         return "Movie: %s, %s" % (self.name, self.category)

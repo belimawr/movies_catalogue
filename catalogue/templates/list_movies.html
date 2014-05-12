@@ -10,7 +10,10 @@ Movies
 <H1>Movies:</H1>
     <UL>
       {% for movie in movies %}
-      <LI><b>{{ movie.name  }}:</b> {{ movie.description  }} </LI>
+      <LI>
+	<B>
+	  <A HREF="{{ movie.get_absolute_url  }}">{{ movie.name  }}</A>:
+	</B> {{ movie.description  }} </LI>
       {% endfor %}
 
       {% if movies.paginator.num_pages > 1  %}
