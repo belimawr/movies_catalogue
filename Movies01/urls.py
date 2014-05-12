@@ -14,10 +14,6 @@ urlpatterns = patterns('',
 
                        url(r'^$', 'catalogue.views.index', name='index'),
 
-                       url(r'^movies/$',
-                           'catalogue.views.movies_listing',
-                           name='movies'),
-
                        url(r'^movies/(?P<search_param>\w+)',
                            'catalogue.views.movies_search_by_name',
                            name='search_movie'),
