@@ -1,14 +1,18 @@
+{% load staticfiles %}
+
 <HTML>
   <HEAD>
     <META CHARSET="UTF-8">
-    <LINK REL="stylesheet" TYPE="text/css" HREF="/static/css/default.css">
+    <LINK REL="stylesheet" TYPE="text/css" HREF="{% static 'css/default.css' %}">
     <TITLE>{% block title %} Tiago's movies catalogue {% endblock  %}</TITLE>
   </HEAD>
 
   <BODY>
     <DIV ID="header">
       {% block header %}
-      <IMG ID="header_image" SRC="/static/images/logo.png">
+      <A HREF="{% url 'index'  %}">
+      <IMG ID="header_image" SRC="{% static 'images/logo.png' %}">
+      </A>
       {% endblock header %}
 
       {% block login  %}
