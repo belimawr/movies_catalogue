@@ -50,13 +50,13 @@ def movies_search_by_name(request, search_param=None):
                      'message': msg
                      }
             d = {'error': error}
-            return render_to_response('not_found.html', d)
+            return render(request, 'not_found.html', d)
     else:
         movies_list = Movie.objects.all()
     page = request.GET.get('page')
     movies = _make_page(movies_list, page, ITEMS_PER_PAGE)
     d = {'movies': movies}
-    return render_to_response('list_movies.html', d)
+    return render(request, 'list_movies.html', d)
 
 
 def movies_search_by_category(request, search_param=None):
@@ -71,11 +71,11 @@ def movies_search_by_category(request, search_param=None):
                      'message': msg
                      }
             d = {'error': error}
-            return render_to_response('not_found.html', d)
+            return render(request, 'not_found.html', d)
         page = request.GET.get('page')
         movies = _make_page(movies_list, page, ITEMS_PER_PAGE)
         d = {'movies': movies}
-        return render_to_response('list_movies.html', d)
+        return render(request, 'list_movies.html', d)
     else:
         return movies_search_by_name(request)
 
@@ -91,35 +91,36 @@ def categories_search_by_name(request, search_param=None):
                      'message': msg
                      }
             d = {'error': error}
-            return render_to_response('not_found.html', d)
+            return render(request, 'not_found.html', d)
     else:
         category_list = Category.objects.all()
     current_page = request.GET.get('page')
     categorires = _make_page(category_list, current_page, ITEMS_PER_PAGE)
     d = {'categories': categorires}
-    return render_to_response('list_categories.html', d)
+    return render(render, 'list_categories.html', d)
 
 
 def movie_details(request, pk=None):
     movie = Movie.objects.filter(pk=pk)
     if len(movie) != 0:
         d = {'movie': movie[0]}
-        return render_to_response('movie_details.html', d)
+        return render(request, 'movie_details.html', d)
     else:
         d = {'error': 'Movie not found'}
-        return render_to_response('not_found.html', d)
+        return render(request, 'not_found.html', d)
 
 
 def category_details(request, pk=None):
     category = Category.objects.filter(pk=pk)
     if len(category) != 0:
         d = {'category': category[0]}
-        return render_to_response('category_details.html', d)
+        return render(request, 'category_details.html', d)
     else:
         d = {'error': 'Category not found'}
-        return render_to_response('not_found.html', d)
+        return render(request, 'not_found.html', d)
 
 
+@login_required
 def category_edit_form(request, pk=None):
     try:
         inst = Category.objects.get(id=pk)
@@ -165,6 +166,19 @@ def movie_edit_form(request, pk=None):
          'action_link': reverse('add_movie')}
     c = RequestContext(request, d)
     return render_to_response('forms.html', c)
+
+
+def delete_movie(request, pk):
+    try:
+        inst = Movie.objects.get(id=pk)
+    except Movie.DoesNotExist:
+        d = {'title': 'Movie not found',
+             'error': 'This movie is not in our databases.'}
+        return render(request, 'not_found.html', d)
+    inst.delete()
+    d = {'title': inst.name + ' deleted',
+         'error': inst.name + ' deleted'}
+    return render(request, 'not_found.html', d)
 
 
 def add_user(request):

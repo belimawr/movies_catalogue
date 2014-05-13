@@ -28,4 +28,13 @@
   <B>Description: </B> {{ movie.description  }}
 </P>
 
+
+{% if user.is_authenticated  %}
+<P style="text-aling: center;">
+  <A HREF="{% url 'edit_movie'  movie.pk %}">Edit</A> - 
+  <A HREF="{% url 'delete_movie' movie.pk %}">Delete</A>
+</P>
+{% endif %}
+
+
 {% endblock body %}

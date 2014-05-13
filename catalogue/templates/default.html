@@ -23,14 +23,24 @@
       <UL>
 	<LI><A HREF="{% url 'movies'  %}"> Movies </A></LI>
 	<LI><A HREF="{% url 'categories'  %}"> Categories </A></LI>
-	<LI><A HREF="#"> Opt 3 </A></LI>
-	<LI><A HREF="#"> Opt 4 </A></LI>
+	{% if user.is_authenticated %}
+	<LI><A HREF="{% url 'logout'  %}"> Logout </A></LI>
+	{% else %}
+	<LI><A HREF="{% url 'login'  %}"> Login </A></LI>
+	<LI><A HREF="{% url 'adduser' %}"> Sing up </A></LI>
+	{% endif %}
+	
       </UL>
     </DIV>
 
     <DIV ID="content">
       {% block body %}
-      Here goes the body
+      {% if user.is_authenticated %}
+      <p>Welcome, <B>{{ user.username }} </B>. Thanks for logging in.</p>
+      {% else %}
+      <p>Welcome, new user. Please
+	<A HREF="{% url 'login'  %}">log in </A>.</p>
+      {% endif %}
       {% endblock body %}
     </DIV>
 
