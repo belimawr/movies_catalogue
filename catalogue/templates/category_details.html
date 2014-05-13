@@ -9,4 +9,9 @@
 <P>
 {{ category.description }}
 </P>
+{% if user.is_authenticated  %}
+<P style="text-aling: center;">
+  <A HREF="{% url 'edit_category'  category.pk %}">Edit</A>
+</P>
+{% endif %}
 {% endblock body %}
