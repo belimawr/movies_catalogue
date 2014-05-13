@@ -147,3 +147,49 @@ def category_form(request):
                  'action_link': reverse('add_category')}
             c = RequestContext(request, d)
             return render_to_response('forms.html', c)
+
+
+def category_edit_form(request, pk):
+    try:
+        inst = Category.objects.get(id=pk)
+    except Category.DoesNotExist:
+        inst = Category()
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, instance=inst)
+        if form.is_valid():
+            new_category = form.save()
+            return HttpResponseRedirect(new_category.get_absolute_url())
+        else:
+            d = {'form': form,
+                 'action_link': reverse('edit_category', args=[pk])}
+            c = RequestContext(request, d)
+            return render_to_response('forms.html', c)
+
+    form = CategoryForm(instance=inst)
+    d = {'form': form,
+         'action_link': reverse('edit_category', args=[pk])}
+    c = RequestContext(request, d)
+    return render_to_response('forms.html', c)
+
+
+def movie_edit_form(request, pk):
+    try:
+        inst = Movie.objects.get(id=pk)
+    except Movie.DoesNotExist:
+        inst = Movie()
+    if request.method == 'POST':
+        form = MovieForm(request.POST, instance=inst)
+        if form.is_valid():
+            new_movie = form.save()
+            return HttpResponseRedirect(new_movie.get_absolute_url())
+        else:
+            d = {'form': form,
+                 'action_link': reverse('edit_movie', args=[pk])}
+            c = RequestContext(request, d)
+            return render_to_response('forms.html', c)
+
+    form = MovieForm(instance=inst)
+    d = {'form': form,
+         'action_link': reverse('edit_movie', args=[pk])}
+    c = RequestContext(request, d)
+    return render_to_response('forms.html', c)

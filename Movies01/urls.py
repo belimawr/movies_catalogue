@@ -45,6 +45,13 @@ urlpatterns = patterns('',
                        url(r'^add/category/$',
                            'catalogue.views.category_form',
                            name='add_category'),
+
+                       url(r'^edit/category/(?P<pk>\d+)$',
+                           'catalogue.views.category_edit_form',
+                           name='edit_category'),
+                       url(r'^edit/movie/(?P<pk>\d+)$',
+                           'catalogue.views.movie_edit_form',
+                           name='edit_movie'),
                        )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
