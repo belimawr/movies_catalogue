@@ -10,13 +10,14 @@
 {{ category.description }}
 </P>
 
-<H2 style="text-aling:center;">Movies in {{ category.name  }}:</H2>
+<H2 style="text-align:center;">Movies in {{ category.name  }}:</H2>
+<UL>
 {% for m in category.movie_set.all %}
-{{ m.name }} <BR>
+<LI>{{ m.name }}</LI>
 {% empty %}
 Sorry, no movies in this category :(
 {% endfor %}
-
+</UL>
 
 
 {% if user.is_authenticated  %}
