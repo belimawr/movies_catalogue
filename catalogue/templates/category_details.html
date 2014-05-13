@@ -9,9 +9,25 @@
 <P>
 {{ category.description }}
 </P>
+
+<H2 style="text-aling:center;">Movies in {{ category.name  }}:</H2>
+{% for m in category.movie_set.all %}
+{{ m.name }} <BR>
+{% empty %}
+Sorry, no movies in this category :(
+{% endfor %}
+
+
+
 {% if user.is_authenticated  %}
 <P style="text-aling: center;">
-  <A HREF="{% url 'edit_category'  category.pk %}">Edit</A>
+  <A HREF="{% url 'edit_category'  category.pk %}">Edit</A> - 
+  <A id="delete_bt" HREF="{% url 'delete_category'  category.pk %}">Delete</A>
+  <script type="text/javascript">
+$('#delete_bt').on('click', function () {
+        return confirm('Are you sure you want to delete {{ category.name  }}?');
+    });
+  </script>
 </P>
 {% endif %}
 {% endblock body %}

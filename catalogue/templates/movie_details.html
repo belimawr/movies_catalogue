@@ -32,7 +32,14 @@
 {% if user.is_authenticated  %}
 <P style="text-aling: center;">
   <A HREF="{% url 'edit_movie'  movie.pk %}">Edit</A> - 
-  <A HREF="{% url 'delete_movie' movie.pk %}">Delete</A>
+  <A ID="delete_bt" HREF="{% url 'delete_movie' movie.pk %}">Delete</A>
+
+  <script type="text/javascript">
+$('#delete_bt').on('click', function () {
+        return confirm('Are you sure you want to delete {{ category.name  }}?');
+    });
+  </script>
+
 </P>
 {% endif %}
 
