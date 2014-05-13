@@ -6,4 +6,6 @@ catalogue/templates/index.html
 catalogue/templates/list.html
 #*#
 #*
-staticfiles
+*COMMIT_EDITMSG~
+*.json
+media/*
