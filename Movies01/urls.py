@@ -40,6 +40,10 @@ urlpatterns = patterns('',
                        url(r'^categories/(?P<search_param>\w+)$',
                            'catalogue.views.categories_search_by_name',
                            name='categories'),
+
+                       url(r'^add/movie$',
+                           'catalogue.views.movie_form',
+                           name='add_movie'),
                        )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

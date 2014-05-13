@@ -1,0 +1,31 @@
+{% extends 'default.html' %}
+
+{% block title %}
+{{ block.super }} -
+Add movie
+{% endblock title %}
+
+
+{% block body %}
+
+{{ errors.as_ul  }}
+
+<FORM NAME="add_movie" ACTION="{% url 'add_movie' %}" METHOD="POST">
+
+  {% for field in form.visible_fields %}
+  <DIV CLASS="mynormalformdiv">
+    <DIV {% if field.errors %} CLASS="field_error" {% endif %}>
+      {{ field.label_tag }}
+      {{ field }}
+      {% for err in field.errors %}
+      <SPAN class="error_message">{{ err }}</SPAN>
+      {% endfor %}
+    </DIV>
+  </DIV>
+  {% endfor %}
+
+  {% csrf_token %}
+  <INPUT type="submit" value="Submit">
+  <INPUT TYPE="reset" VALUE="Reset">
+</FORM>
+{% endblock body %}
