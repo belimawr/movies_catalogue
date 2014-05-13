@@ -80,6 +80,9 @@ DATABASES = {
     }
 }
 
+
+STATIC_ROOT = 'staticfiles'
+
 #Heroku
 if os.environ.get('USER') is None:
     import dj_database_url
