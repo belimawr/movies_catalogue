@@ -97,7 +97,7 @@ def categories_search_by_name(request, search_param=None):
     current_page = request.GET.get('page')
     categorires = _make_page(category_list, current_page, ITEMS_PER_PAGE)
     d = {'categories': categorires}
-    return render(render, 'list_categories.html', d)
+    return render(request, 'list_categories.html', d)
 
 
 def movie_details(request, pk=None):
@@ -121,7 +121,7 @@ def category_details(request, pk=None):
 
 
 @login_required
-def category_edit_form(request, pk=None):
+def category_edit_form(request, pk):
     try:
         inst = Category.objects.get(id=pk)
     except Category.DoesNotExist:
@@ -139,9 +139,16 @@ def category_edit_form(request, pk=None):
 
     form = CategoryForm(instance=inst)
     d = {'form': form,
-         'action_link': reverse('add_category')}
+         'action_link': reverse('edit_category', args=[pk])}
     c = RequestContext(request, d)
     return render_to_response('forms.html', c)
+
+
+
+
+
+
+
 
 
 @login_required
@@ -168,6 +175,7 @@ def movie_edit_form(request, pk=None):
     return render_to_response('forms.html', c)
 
 
+@login_required
 def delete_movie(request, pk):
     try:
         inst = Movie.objects.get(id=pk)
