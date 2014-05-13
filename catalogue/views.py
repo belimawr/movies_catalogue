@@ -121,7 +121,7 @@ def category_details(request, pk=None):
 
 
 @login_required
-def category_edit_form(request, pk):
+def category_edit_form(request, pk=None):
     try:
         inst = Category.objects.get(id=pk)
     except Category.DoesNotExist:
@@ -133,22 +133,15 @@ def category_edit_form(request, pk):
             return HttpResponseRedirect(new_category.get_absolute_url())
         else:
             d = {'form': form,
-                 'action_link': reverse('edit_category', args=[pk])}
+                 'action_link': reverse('edit_category', args=[inst.pk])}
             c = RequestContext(request, d)
             return render_to_response('forms.html', c)
 
     form = CategoryForm(instance=inst)
     d = {'form': form,
-         'action_link': reverse('edit_category', args=[pk])}
+         'action_link': reverse('edit_category', args=[inst.pk])}
     c = RequestContext(request, d)
     return render_to_response('forms.html', c)
-
-
-
-
-
-
-
 
 
 @login_required
@@ -164,13 +157,13 @@ def movie_edit_form(request, pk=None):
             return HttpResponseRedirect(new_movie.get_absolute_url())
         else:
             d = {'form': form,
-                 'action_link': reverse('edit_movie', args=[pk])}
+                 'action_link': reverse('edit_movie', args=[inst.pk])}
             c = RequestContext(request, d)
             return render_to_response('forms.html', c)
 
     form = MovieForm(instance=inst)
     d = {'form': form,
-         'action_link': reverse('add_movie')}
+         'action_link': reverse('edit_movie', args=[inst.pk])}
     c = RequestContext(request, d)
     return render_to_response('forms.html', c)
 
