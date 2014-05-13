@@ -111,45 +111,7 @@ def category_details(request, pk=None):
         return render_to_response('not_found.html', d)
 
 
-def movie_form(request):
-    if request.method == 'GET':
-        form = MovieForm()
-        d = {'form': form,
-             'action_link': reverse('add_movie')}
-        c = RequestContext(request, d)
-        return render_to_response('forms.html', c)
-    elif request.method == 'POST':
-        form = MovieForm(request.POST or None)
-        if form.is_valid():
-            new_movie = form.save()
-            return HttpResponseRedirect(new_movie.get_absolute_url())
-        else:
-            d = {'form': form,
-                 'action_link': reverse('add_movie')}
-            c = RequestContext(request, d)
-            return render_to_response('forms.html', c)
-
-
-def category_form(request):
-    if request.method == 'GET':
-        form = CategoryForm()
-        d = {'form': form,
-             'action_link': reverse('add_category')}
-        c = RequestContext(request, d)
-        return render_to_response('forms.html', c)
-    elif request.method == 'POST':
-        form = CategoryForm(request.POST or None)
-        if form.is_valid():
-            new_category = form.save()
-            return HttpResponseRedirect(new_category.get_absolute_url())
-        else:
-            d = {'form': form,
-                 'action_link': reverse('add_category')}
-            c = RequestContext(request, d)
-            return render_to_response('forms.html', c)
-
-
-def category_edit_form(request, pk):
+def category_edit_form(request, pk=None):
     try:
         inst = Category.objects.get(id=pk)
     except Category.DoesNotExist:
@@ -167,12 +129,12 @@ def category_edit_form(request, pk):
 
     form = CategoryForm(instance=inst)
     d = {'form': form,
-         'action_link': reverse('edit_category', args=[pk])}
+         'action_link': reverse('add_category')}
     c = RequestContext(request, d)
     return render_to_response('forms.html', c)
 
 
-def movie_edit_form(request, pk):
+def movie_edit_form(request, pk=None):
     try:
         inst = Movie.objects.get(id=pk)
     except Movie.DoesNotExist:
@@ -190,6 +152,6 @@ def movie_edit_form(request, pk):
 
     form = MovieForm(instance=inst)
     d = {'form': form,
-         'action_link': reverse('edit_movie', args=[pk])}
+         'action_link': reverse('add_movie')}
     c = RequestContext(request, d)
     return render_to_response('forms.html', c)
