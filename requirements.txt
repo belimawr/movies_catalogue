@@ -12,8 +12,6 @@ flake8==2.1.0
 gunicorn==18.0
 ipdb==0.8
 ipython==2.0.0
-jedi==0.8.0-final0
-jediepcserver==0.0.0
 mccabe==0.2.1
 pep8==1.5.6
 psycopg2==2.5.2
