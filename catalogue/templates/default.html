@@ -37,6 +37,31 @@
     </DIV>
 
     <DIV ID="content">
+
+    <DIV CLASS="search_form">
+    <B>Search Movie Name:</B><BR>
+    <FORM  METHOD="GET" ACTION="{% url 'movies'  %}">
+      <input type="text" name="movie_name">
+      <input type="submit" value="Search!">
+    </FORM>
+    </DIV>
+
+    <DIV CLASS="search_form">
+    <B>Search Movie by Category</B><BR>
+    <FORM METHOD="GET" ACTION="{% url 'move_by_c'  %}">
+      <input type="text" name="mc_name">
+      <input type="submit" value="Search!">
+    </FORM>
+    </DIV>
+
+    <DIV CLASS="search_form">
+    <B>Search Category Name:</B><BR>
+    <FORM METHOD="GET" ACTION="{% url 'categories'  %}">
+      <input type="text" name="category_name">
+      <input type="submit" value="Search!">
+    </FORM>
+    </DIV>
+<hr>
       {% block body %}
       {% if user.is_authenticated %}
       <p>Welcome, <B>{{ user.username }} </B>. Thanks for logging in.</p>
@@ -55,5 +80,6 @@
       </p>
       {% endblock footer %}
     </DIV>
+
   </BODY>
 </HTML>

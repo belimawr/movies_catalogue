@@ -1,12 +1,12 @@
 from django.shortcuts import render, render_to_response, get_object_or_404
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import login
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate
 from django.contrib.auth import logout
 from django.contrib.auth.forms import AuthenticationForm
 
@@ -37,6 +37,27 @@ def index(request):
          'movies': movies
          }
     return render(request, 'default.html', d)
+
+
+def movies_search_name_get(request):
+    if request.method == 'GET':
+        p = request.GET.get('movie_name')
+        return movies_search_by_name(request, p)
+    raise Http404
+
+
+def movies_search_by_category_get(request):
+    if request.method == 'GET':
+        p = request.GET.get('mc_name')
+        return movies_search_by_category(request, p)
+    raise Http404
+
+
+def category_search_name_get(request):
+    if request.method == 'GET':
+        p = request.GET.get('category_name')
+        return categories_search_by_name(request, p)
+    raise Http404
 
 
 def movies_search_by_name(request, search_param=None):
@@ -224,6 +245,21 @@ def delete_category(request, pk):
         d = {'title': 'Category not found',
              'error': 'This category is not in our databases.'}
         return render(request, 'not_found.html', d)
+    inst.delete()
+    d = {'title': inst.name + ' deleted',
+         'error': inst.name + ' deleted'}
+    return render(request, 'not_found.html', d)
+
+
+@login_required
+def delete_category_all(request, pk):
+    try:
+        inst = Category.objects.get(id=pk)
+    except Category.DoesNotExist:
+        d = {'title': 'Category not found',
+             'error': 'This category is not in our databases.'}
+        return render(request, 'not_found.html', d)
+    inst.movie_set.all().delete()
     inst.delete()
     d = {'title': inst.name + ' deleted',
          'error': inst.name + ' deleted'}
