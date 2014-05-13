@@ -95,6 +95,7 @@ if os.environ.get('USER') is None:
     STATIC_URL = '/static/'
     STATICFILES_DIRS = (
         os.path.join(BASE_DIR, 'static'),
+        os.path.join(BASE_DIR, STATIC_ROOT),
     )
 
 
@@ -121,7 +122,7 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = BASE_DIR + '/media/'
 
-
+#LOGIN_URL = '/login/'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
