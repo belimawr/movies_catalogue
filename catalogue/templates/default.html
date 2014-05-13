@@ -4,6 +4,7 @@
   <HEAD>
     <META CHARSET="UTF-8">
     <LINK REL="stylesheet" TYPE="text/css" HREF="{% static 'css/default.css' %}">
+    <script src="{% static 'js/jquery-1.11.1.js' %}"></script>
     <TITLE>{% block title %} Tiago's movies catalogue {% endblock  %}</TITLE>
   </HEAD>
 
@@ -24,6 +25,8 @@
 	<LI><A HREF="{% url 'movies'  %}"> Movies </A></LI>
 	<LI><A HREF="{% url 'categories'  %}"> Categories </A></LI>
 	{% if user.is_authenticated %}
+	<LI><A HREF="{% url 'add_movie' %}"> Add Movie </A></LI>
+	<LI><A HREF="{% url 'add_category' %}"> Add Category </A></LI>
 	<LI><A HREF="{% url 'logout'  %}"> Logout </A></LI>
 	{% else %}
 	<LI><A HREF="{% url 'login'  %}"> Login </A></LI>
