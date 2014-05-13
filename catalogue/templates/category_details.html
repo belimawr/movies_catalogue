@@ -1,0 +1,12 @@
+{% extends 'default.html' %} 
+{% block title %}
+{{ block.super }} - 
+{{ category.name }}
+{% endblock title %}
+
+{% block body %}
+<H1>{{ category.name  }}</H1>
+<P>
+{{ category.description }}
+</P>
+{% endblock body %}

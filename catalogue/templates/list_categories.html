@@ -10,7 +10,10 @@ Categories
 <H1>Categories:</H1>
     <UL>
       {% for category in categories %}
-      <LI><b>{{ category.name  }}:</b> {{ category.description  }} </LI>
+      <LI>
+	<B>
+	  <A HREF="{{ category.get_absolute_url }}">{{ category.name  }}</A>:
+	</B> {{ category.description  }} </LI>
       {% endfor %}
     </UL>
 

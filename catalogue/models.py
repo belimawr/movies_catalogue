@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 
 
 class Category(models.Model):
@@ -8,6 +9,10 @@ class Category(models.Model):
 
     name = models.CharField(u'Category name', max_length=100)
     description = models.TextField(u'Category description')
+
+    def get_absolute_url(self):
+        return reverse('catalogue.views.category_details',
+                       kwargs={'pk': self.id})
 
     def __unicode__(self):
         return self.name
@@ -35,7 +40,6 @@ class Movie(models.Model):
             return self.picture.url
 
     def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
         return reverse('catalogue.views.movie_details', kwargs={'pk': self.id})
 
     def __unicode__(self):

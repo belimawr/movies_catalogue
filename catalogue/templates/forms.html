@@ -10,7 +10,7 @@ Add movie
 
 {{ errors.as_ul  }}
 
-<FORM NAME="add_movie" ACTION="{% url 'add_movie' %}" METHOD="POST">
+<FORM NAME="add_movie" ACTION="{{ action_link }}" METHOD="POST">
 
   {% for field in form.visible_fields %}
   <DIV CLASS="mynormalformdiv">

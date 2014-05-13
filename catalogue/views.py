@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from catalogue.models import Movie, Category
 from catalogue.forms import MovieForm, CategoryForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.core.urlresolvers import reverse
 
 ITEMS_PER_PAGE = 15
 
@@ -101,11 +101,21 @@ def movie_details(request, pk=None):
         return render_to_response('not_found.html', d)
 
 
+def category_details(request, pk=None):
+    category = Category.objects.filter(pk=pk)
+    if len(category) != 0:
+        d = {'category': category[0]}
+        return render_to_response('category_details.html', d)
+    else:
+        d = {'error': 'Category not found'}
+        return render_to_response('not_found.html', d)
+
+
 def movie_form(request):
     if request.method == 'GET':
-        # mform = MovieForm(request.POST or None)
-        mf = MovieForm()
-        d = {'form': mf}
+        form = MovieForm()
+        d = {'form': form,
+             'action_link': reverse('add_movie')}
         c = RequestContext(request, d)
         return render_to_response('forms.html', c)
     elif request.method == 'POST':
@@ -114,6 +124,26 @@ def movie_form(request):
             new_movie = form.save()
             return HttpResponseRedirect(new_movie.get_absolute_url())
         else:
-            d = {'form': form}
+            d = {'form': form,
+                 'action_link': reverse('add_movie')}
+            c = RequestContext(request, d)
+            return render_to_response('forms.html', c)
+
+
+def category_form(request):
+    if request.method == 'GET':
+        form = CategoryForm()
+        d = {'form': form,
+             'action_link': reverse('add_category')}
+        c = RequestContext(request, d)
+        return render_to_response('forms.html', c)
+    elif request.method == 'POST':
+        form = CategoryForm(request.POST or None)
+        if form.is_valid():
+            new_category = form.save()
+            return HttpResponseRedirect(new_category.get_absolute_url())
+        else:
+            d = {'form': form,
+                 'action_link': reverse('add_category')}
             c = RequestContext(request, d)
             return render_to_response('forms.html', c)

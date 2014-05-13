@@ -14,21 +14,17 @@ admin.autodiscover()
 # url(r'^blog/', include('blog.urls')),
 urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
-
                        url(r'^$', 'catalogue.views.index', name='index'),
 
                        url(r'^movies/$',
                            'catalogue.views.movies_search_by_name',
                            name='movies'),
-
                        url(r'^movies/category/(?P<search_param>\w+)$',
                            'catalogue.views.movies_search_by_category',
                            name='movies_category'),
-
                        url(r'^movies/(?P<search_param>\w+)$',
                            'catalogue.views.movies_search_by_name',
                            name='movies'),
-
                        url(r'^movies/details/(?P<pk>\d+)$',
                            'catalogue.views.movie_details',
                            name='movie_details'),
@@ -36,14 +32,19 @@ urlpatterns = patterns('',
                        url(r'^categories/$',
                            'catalogue.views.categories_search_by_name',
                            name='categories'),
-
                        url(r'^categories/(?P<search_param>\w+)$',
                            'catalogue.views.categories_search_by_name',
                            name='categories'),
+                       url(r'^category/details/(?P<pk>\d+)$',
+                           'catalogue.views.category_details',
+                           name='category_details'),
 
-                       url(r'^add/movie$',
+                       url(r'^add/movie/$',
                            'catalogue.views.movie_form',
                            name='add_movie'),
+                       url(r'^add/category/$',
+                           'catalogue.views.category_form',
+                           name='add_category'),
                        )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
