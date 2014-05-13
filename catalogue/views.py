@@ -1,10 +1,19 @@
 from django.shortcuts import render, render_to_response
-from django.template import RequestContext, loader, Context, Template
-from django.http import HttpResponse, HttpResponseRedirect
-from catalogue.models import Movie, Category
-from catalogue.forms import MovieForm, CategoryForm
+from django.template import RequestContext
+from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib.auth import login
+from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
+from django.contrib.auth.forms import AuthenticationForm
+
+
+from catalogue.models import Movie, Category
+from catalogue.forms import MovieForm, CategoryForm, UserForm
+
 
 ITEMS_PER_PAGE = 15
 
@@ -134,6 +143,7 @@ def category_edit_form(request, pk=None):
     return render_to_response('forms.html', c)
 
 
+@login_required
 def movie_edit_form(request, pk=None):
     try:
         inst = Movie.objects.get(id=pk)
@@ -155,3 +165,36 @@ def movie_edit_form(request, pk=None):
          'action_link': reverse('add_movie')}
     c = RequestContext(request, d)
     return render_to_response('forms.html', c)
+
+
+def add_user(request):
+    if request.method == "POST":
+        form = UserForm(request.POST)
+        if form.is_valid():
+            User.objects.create_user(**form.cleaned_data)
+            return HttpResponseRedirect('/')
+    else:
+        form = UserForm()
+
+    return render(request, 'forms.html', {'form': form})
+
+
+def log_in(request):
+    if request.method == 'GET':
+        form = AuthenticationForm()
+        return render(request, 'forms.html', {'form': form})
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        if user.is_active:
+            login(request, user)
+            # Redirect to a success page.
+            return HttpResponseRedirect(reverse('index'))
+    else:
+        return HttpResponseRedirect(reverse('login'))
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('index'))

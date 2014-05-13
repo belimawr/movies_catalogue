@@ -54,6 +54,20 @@ urlpatterns = patterns('',
                        url(r'^edit/movie/(?P<pk>\d+)$',
                            'catalogue.views.movie_edit_form',
                            name='edit_movie'),
+
+                       url(r'^user/add/$',
+                           'catalogue.views.add_user',
+                           {},
+                           'adduser'),
+
+                       url(r'^user/login/$',
+                           'catalogue.views.log_in',
+                           name='login'),
+
+                       url(r'^user/logout/$',
+                           'catalogue.views.logout_view',
+                           name='logout')
+
                        )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
